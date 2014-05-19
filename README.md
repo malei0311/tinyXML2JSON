@@ -7,6 +7,7 @@ learn from [http://davidwalsh.name/convert-xml-json](http://davidwalsh.name/conv
 ## 使用
 
     tinyXML2JSON.convert(xmlStr);
+    // xmlStr 为 xml 字符串或者 xml 对象(即: xmlStr instanceof XMLDocument // true)
 
 ## NB 的版本
 

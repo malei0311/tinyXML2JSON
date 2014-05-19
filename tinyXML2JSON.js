@@ -8,19 +8,21 @@ var tinyXML2JSON = (function(){
         obj = {},
         i = -1;
 
-    if (key == 1 && attrs.length) {
+    if (key === 1 && attrs.length) {
       obj[key = '@attributes'] = {};
       while (attr = attrs.item(++i)) {
         obj[key][attr.nodeName] = attr.nodeValue;
       }
       i = -1;
-    } else if (key == 3) {
+    } else if (key === 3) {
       obj = xmlDoc.nodeValue;
+    } else if(key === 4) {
+      obj = xmlDoc.data || xmlDoc.nodeValue;
     }
     while (child = children.item(++i)) {
       key = child.nodeName;
       if (obj.hasOwnProperty(key)) {
-        if (obj.toString.call(obj[key]) != '[object Array]') {
+        if (obj.toString.call(obj[key]) !== '[object Array]') {
           obj[key] = [obj[key]];
         }
         obj[key].push(convertX2J(child));
@@ -47,8 +49,13 @@ var tinyXML2JSON = (function(){
 
   return {
     convert: function(xmlStr) {
-      var xmlDoc = parseXML(xmlStr);
-      return convertX2J(xmlDoc);
+      var xmlDoc;
+      if(typeof xmlStr === 'string') {
+        xmlDoc = parseXML(xmlStr);
+        return convertX2J(xmlDoc);
+      } else if(Object.prototype.toString.call(xmlStr) === '[object XMLDocument]') {
+        return convertX2J(xmlStr);
+      }
     }
   }
 })();
