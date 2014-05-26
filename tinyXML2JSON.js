@@ -53,7 +53,9 @@ var tinyXML2JSON = (function(){
       if(typeof xmlStr === 'string') {
         xmlDoc = parseXML(xmlStr);
         return convertX2J(xmlDoc);
-      } else if(Object.prototype.toString.call(xmlStr) === '[object XMLDocument]') {
+      } else if(Object.prototype.toString.call(xmlStr) === '[object XMLDocument]' ||
+        Object.prototype.toString.call(xmlStr) === '[object Document]') {
+        // 经测试 chrome31 虽然全局有 XMLDocument 但是 Object.prototype.toString.call(xmlStr) 仍为 [object Document]
         return convertX2J(xmlStr);
       }
     }
